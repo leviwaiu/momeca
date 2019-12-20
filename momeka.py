@@ -127,8 +127,8 @@ class MyClient(discord.Client):
             if len(message.content.strip()) > 5:
                 msg = message.content[5:].strip().split()
                 if 511556749392609281 in [role.id for role in message.author.roles] or 511555135185354767 in [role.id for role in message.author.roles]:
-                    if message.content[4] == 'u':
-                        if len(msg) == 2 and msg[0] not in MyClient.reactToLink and msg[1].startswith("https://cdn.discordapp.com/attachments/"):
+                    if message.content[4] == 'u': #for unique
+                        if len(msg) == 2 and msg[0] not in MyClient.reactToLink and (msg[1].startswith("https://cdn.discordapp.com/attachments/") or msg[1].startswith("https://media.discordapp.net/attachments/"):
                             MyClient.reactToLink[msg[0]] = msg[1]
                             await message.channel.send("Momeca has added " + msg[0] + " to Momeca's unique collection!".format(message))
                             unilst = ''#test
@@ -142,8 +142,8 @@ class MyClient(discord.Client):
                             await message.channel.send("Momeca refuses to do anything because the name is already used! Type .edit to change the picture for the name ㄟ(≧◇≦)ㄏ".format(message))
                         else:
                             await message.channel.send("Momeca refuses to do anything because the format is not correct (｀へ´)=3".format(message))
-                    elif message.content[4] == 'g':
-                        if len(msg) == 2 and msg[0] not in MyClient.reactToLink2 and msg[1].startswith("https://cdn.discordapp.com/attachments/"):
+                    elif message.content[4] == 'g': #for general
+                        if len(msg) == 2 and msg[0] not in MyClient.reactToLink2 and (msg[1].startswith("https://cdn.discordapp.com/attachments/") or msg[1].startswith("https://media.discordapp.net/attachments/"):
                             MyClient.reactToLink2[msg[0]] = msg[1]
                             await message.channel.send("Momeca has added " + msg[0] + " to Momeca's general collection!".format(message))
                             genlst = ''#test
@@ -170,15 +170,15 @@ class MyClient(discord.Client):
             if len(message.content.strip()) > 6:
                 msg = message.content[6:].strip().split()
                 if 511556749392609281 in [role.id for role in message.author.roles] or 511555135185354767 in [role.id for role in message.author.roles]:
-                    if message.content[5] == 'u':
-                        if len(msg) == 2 and msg[0] in MyClient.reactToLink and msg[1].startswith("https://cdn.discordapp.com/attachments/"):
+                    if message.content[5] == 'u': #for unique
+                        if len(msg) == 2 and msg[0] in MyClient.reactToLink and (msg[1].startswith("https://cdn.discordapp.com/attachments/") or msg[1].startswith("https://media.discordapp.net/attachments/"):
                             MyClient.reactToLink[msg[0]] = msg[1]
                             await message.channel.send("Momeca has updated " + msg[0] + " in Momeca's unique collection!".format(message))
                             unilst = ''#test
                             for react1 in MyClient.reactToLink:
                                 unilst += react1 + '\n'
                             print(unilst)#endtest
-                            unique = open("reactToLinkUni.txt",'r')
+                            unique = open("reactToLinkUni.txt",'r') #the following 17 lines edits the text file.
                             contentsa = ''
                             contentsb = ''
                             line = unique.readline()
@@ -199,8 +199,8 @@ class MyClient(discord.Client):
                             await message.channel.send("Momeca refuses to do anything because Momeca hasn't seen this reaction before! Type .addu to add a new picture ㄟ(≧◇≦)ㄏ".format(message))
                         else:
                             await message.channel.send("Momeca refuses to do anything because the format is not correct (｀へ´)=3".format(message))
-                    elif message.content[5] == 'g':
-                        if len(msg) == 2 and msg[0] in MyClient.reactToLink2 and msg[1].startswith("https://cdn.discordapp.com/attachments/"):
+                    elif message.content[5] == 'g': #for general
+                        if len(msg) == 2 and msg[0] in MyClient.reactToLink2 and (msg[1].startswith("https://cdn.discordapp.com/attachments/") or msg[1].startswith("https://media.discordapp.net/attachments/"):
                             MyClient.reactToLink2[msg[0]] = msg[1]
                             await message.channel.send("Momeca has updated " + msg[0] + " in Momeca's general collection!".format(message))
                             genlst = ''#test
