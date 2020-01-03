@@ -2,7 +2,7 @@ class StoredLinks:
     def __init__(self):
         self.linkPrefix = ["https://cdn.discordapp.com/attachments/",
                            "https://media.discordapp.net/attachments/"]
-        self.adminRoleId = [511556749392609281,511555135185354767,584394177807384596,513722191154511874,579685479767605259,584397796329914378]
+        self.adminRoleId = [511556749392609281,511555135185354767,513711457981038631,513720779372757002]
 
         self.uniqueFile = "reactToLinkUni.txt"
         self.generalFile = "reactToLinkGen.txt"
@@ -21,11 +21,11 @@ class StoredLinks:
         general.close()
 
     def valid(self, message: str, roleIds: list) -> bool:
-        """Check if the message has to correct format according to
-        the command and if the author of the message has an adminRoleId."""
+        """Check if the message has correct format according to
+        the command and if the author of the message has an adminRoleId if not dealing with general collection."""
         msg = message.strip().split()
-        if any(ids in self.adminRoleId for ids in roleIds):
-            if len(msg) == 2 and msg[0].startswith('.delete'):
+        if any(ids in self.adminRoleId for ids in roleIds) or msg[0][-1].lower() == 'g':
+            if len(msg) == 2 and msg[0].startswith('m-delete'):
                 return True
             elif len(msg) == 3:
                 for prefix in self.linkPrefix:
@@ -83,7 +83,7 @@ class StoredLinks:
         Return a message depending if the operation was successful."""
         if self.valid(message, roleIds) :
             msg = message.strip().split()
-            decision = msg[0][-1]
+            decision = msg[0][-1].lower()
             if decision == 'u':
                 fileName = self.uniqueFile
                 dictName = self.reactToLinkU
@@ -94,17 +94,20 @@ class StoredLinks:
                 decision = "general"
             else:
                 return "Momeca refuses to do anything because Momeca doesn't know which collection to change!"
-            command = msg[0][:-1]
+            command = msg[0][:-1].lower()
 
-            if command == ".add" and msg[1] not in dictName:
-                dictName[msg[1]] = msg[2]
-                self.add(msg[1], msg[2], fileName)
-                return "Momeca has added " + msg[1] + " to Momeca's " + decision + " collection!"
-            elif command == ".edit" or command == ".add":
+            if msg[1] not in dictName:
+                if command == "m-add":
+                    dictName[msg[1]] = msg[2]
+                    self.add(msg[1], msg[2], fileName)
+                    return "Momeca has added " + msg[1] + " to Momeca's " + decision + " collection!"
+                elif command == "m-edit":
+                    return "Momeca hasn't seen this reaction before! Type 'm-add' to add it to Momeca's collection!"
+            elif command == "m-edit" or command == "m-add":
                 dictName[msg[1]] = msg[2]
                 self.edit(msg[1], msg[2], fileName)
                 return "Momeca has updated " + msg[1] + " in Momeca's " + decision + " collection!"
-            elif command == ".delete":
+            elif command == "m-delete":
                 dictName.pop(msg[1])
                 self.delete(msg[1], fileName)
                 return "Momeca has deleted " + msg[1] + " from Momeca's " + decision + " collection (˘•ω•˘)"
