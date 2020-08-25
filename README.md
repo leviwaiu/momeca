@@ -5,7 +5,7 @@ The bot created above is momeca: it adds, deletes and then sends reaction images
 
 This is only a brief introduction: If you want, you can improve this to include instructions as to how to run and to manage momeca.
 
-#Acknowledgement
+# Acknowledgement
 
 The original code is not written by me: it is written by two other users.
 
